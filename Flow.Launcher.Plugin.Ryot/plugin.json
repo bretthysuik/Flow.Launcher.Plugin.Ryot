@@ -4,7 +4,7 @@
     "Name": "ryot",
     "Description": "Search your ryot tracker",
     "Author": "bretthysuik",
-    "Version": "0.0.1",
+    "Version": "1.0.0",
     "Language": "csharp",
     "Website": "https://github.com/bretthysuik/Flow.Launcher.Plugin.Ryot",
     "IcoPath": "Images//ryot.png",
