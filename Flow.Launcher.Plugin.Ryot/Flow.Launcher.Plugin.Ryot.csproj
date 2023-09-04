@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <AssemblyName>Flow.Launcher.Plugin.Ryot</AssemblyName>
+    <PackageId>Flow.Launcher.Plugin.Ryot</PackageId>
+    <Authors>bretthysuik</Authors>
+    <PackageProjectUrl>https://github.com/bretthysuik/Flow.Launcher.Plugin.Ryot</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/bretthysuik/Flow.Launcher.Plugin.Ryot</RepositoryUrl>
+    <PackageTags>flow-launcher flow-plugin ryot</PackageTags>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>None</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="plugin.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Images\*.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Flow.Launcher.Plugin" Version="4.1.1" />
+    <PackageReference Include="GraphQL.Client" Version="6.0.0" />
+    <PackageReference Include="GraphQL.Client.Serializer.SystemTextJson" Version="6.0.0" />
+  </ItemGroup>
+</Project>
