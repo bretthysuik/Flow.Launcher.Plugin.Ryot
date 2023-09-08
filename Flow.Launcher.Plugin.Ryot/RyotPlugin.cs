@@ -18,7 +18,6 @@ public class RyotPlugin : IAsyncPlugin, ISettingProvider
     {
         _context = context;
         _settings = _context.API.LoadSettingJsonStorage<Settings>();
-        _ryot = new Ryot(_settings);
 
         return Task.CompletedTask;
     }
@@ -28,14 +27,36 @@ public class RyotPlugin : IAsyncPlugin, ISettingProvider
     {
         try
         {
+            if (String.IsNullOrWhiteSpace(_settings.ApiToken))
+                return ErrorResult("ERROR: API token must be assigned in plugin settings.");
+
+            if (String.IsNullOrWhiteSpace(_settings.BaseUrl))
+                return ErrorResult("ERROR: Base URL must be assigned in plugin settings.");
+
+            _ryot ??= new Ryot(_settings);
             var results = await _ryot.QueryAsync(query, url => _context.API.OpenUrl(url), token);
             return results.ToList();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            _context.API.LogException(nameof(RyotPlugin), $"Error querying ryot '{query.RawQuery}'", ex);
             return new List<Result>();
         }
     }
+
+    private List<Result> ErrorResult(string title) => new()
+    {
+        new Result()
+        {
+            Title = title,
+            SubTitle = "Go to plugin settings",
+            Action = _ =>
+            {
+                _context.API.OpenSettingDialog();
+                return true;
+            }
+        }
+    };
 
     /// <inheritdoc/>
     public Control CreateSettingPanel() => new SettingsControl(_settings);
