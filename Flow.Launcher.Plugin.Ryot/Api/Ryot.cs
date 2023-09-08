@@ -14,21 +14,22 @@ internal class Ryot
 {
     private readonly GraphQLHttpClient _ryotApi;
     private readonly Settings _settings;
+    private static readonly IEnumerable<Result> _helpResults = RyotLots.Lots.Select(lot => lot.ToResult());
 
     internal Ryot(Settings settings)
     {
         _settings = settings;
-        _ryotApi = new GraphQLHttpClient(_settings.BaseUrl + "/graphql", new SystemTextJsonSerializer());
+        _ryotApi = new GraphQLHttpClient(_settings.BaseUrl.TrimEnd('/') + "/graphql", new SystemTextJsonSerializer());
         _ryotApi.HttpClient.DefaultRequestHeaders.Add("X-Auth-Token", _settings.ApiToken);
     }
 
     internal async Task<IEnumerable<Result>> QueryAsync(Query query, Action<string> openUrl, CancellationToken token)
     {
-        var (canQuery, lot) = RyotLot.Match(query.FirstSearch);
-        if (!canQuery)
-            return Enumerable.Empty<Result>();
+        var match = RyotLots.Lots.FirstOrDefault(lot => lot.Match(query.FirstSearch));
+        if (match == null)
+            return _helpResults;
 
-        var result = await _ryotApi.SendQueryAsync<MediaListResponseRoot>(CreateListRequest(query, lot), token);
+        var result = await _ryotApi.SendQueryAsync<MediaListResponseRoot>(CreateListRequest(query, match.Lot), token);
 
         return result.Data.MediaList.Items.Select(item => ToResult(item, openUrl));
     }

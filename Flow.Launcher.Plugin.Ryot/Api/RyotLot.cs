@@ -1,27 +1,45 @@
-﻿namespace Flow.Launcher.Plugin.Ryot;
+﻿using System.Collections.Generic;
+using System.Linq;
 
-internal static class RyotLot
+namespace Flow.Launcher.Plugin.Ryot;
+
+internal record RyotLot(string Lot, params string[] Aliases)
 {
-    private const string AudioBook = "AUDIO_BOOK";
-    private const string Anime = "ANIME";
-    private const string Book = "BOOK";
-    private const string Podcast = "PODCAST";
-    private const string Manga = "MANGA";
-    private const string Movie = "MOVIE";
-    private const string Show = "SHOW";
-    private const string VideoGame = "VIDEO_GAME";
+    internal bool Match(string lot) =>
+        string.Equals(lot, Lot, System.StringComparison.InvariantCultureIgnoreCase) ||
+        Aliases.Any(alias => string.Equals(alias, lot, System.StringComparison.InvariantCultureIgnoreCase));
 
-    internal static (bool, string) Match(string lot) =>
-        lot.ToUpperInvariant() switch
+    internal Result ToResult()
+    {
+        string aliases = "---";
+        if (Aliases.Any())
         {
-            AudioBook or "AUDIOBOOK" or "ABOOK" or "AB" => (true, AudioBook),
-            Anime or "A" => (true, Anime),
-            Book or "B" => (true, Book),
-            Podcast or "POD" or "PC" => (true, Podcast),
-            Manga => (true, Manga),
-            Movie or "MOV" or "M" => (true, Movie),
-            Show or "TVSHOW" or "TV" => (true, Show),
-            VideoGame or "VIDEOGAME" or "VG" => (true, VideoGame),
-            _ => (false, "")
+            aliases = string.Join(" | ", Aliases.Select(a => a.ToLower()));
+        }
+
+        return new()
+        {
+            Title = Lot.ToLower(),
+            SubTitle = "Aliases: " + aliases,
+            IcoPath = "Images\\ryot.png"
         };
+    }
+}
+
+internal static class RyotLots
+{
+    internal static readonly RyotLot
+        AudioBook = new("AUDIO_BOOK", "AUDIOBOOK", "ABOOK", "AB"),
+        Anime = new("ANIME"),
+        Book = new("BOOK", "B"),
+        Podcast = new("PODCAST", "POD", "PC"),
+        Manga = new("MANGA"),
+        Movie = new("MOVIE", "MOV", "M"),
+        Show = new("SHOW", "TVSHOW", "TV"),
+        VideoGame = new("VIDEO_GAME", "VIDEOGAME", "VG");
+
+    internal static readonly IReadOnlyCollection<RyotLot> Lots = new List<RyotLot>()
+    {
+        AudioBook, Anime, Book, Podcast, Manga, Movie, Show, VideoGame
+    };
 }
