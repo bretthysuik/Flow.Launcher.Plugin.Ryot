@@ -2,7 +2,7 @@
 
 A plugin for [Flow Launcher](https://github.com/Flow-Launcher/Flow.Launcher) to search your [ryot](https://github.com/IgnisDa/ryot) tracker.
 
-![image](https://imgur.com/AKBVT4a.gif)
+![image](https://imgur.com/gVt9VBd.gif)
 
 ### Configuration
 
