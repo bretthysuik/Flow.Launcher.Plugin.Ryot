@@ -36,10 +36,11 @@ internal static class RyotLots
         Manga = new("MANGA"),
         Movie = new("MOVIE", "MOV", "M"),
         Show = new("SHOW", "TVSHOW", "TV"),
-        VideoGame = new("VIDEO_GAME", "VIDEOGAME", "VG");
+        VideoGame = new("VIDEO_GAME", "VIDEOGAME", "VG"),
+        VisualNovel = new("VISUAL_NOVEL", "VISUALNOVEL", "VN");
 
     internal static readonly IReadOnlyCollection<RyotLot> Lots = new List<RyotLot>()
     {
-        AudioBook, Anime, Book, Podcast, Manga, Movie, Show, VideoGame
+        AudioBook, Anime, Book, Podcast, Manga, Movie, Show, VideoGame, VisualNovel
     };
 }
