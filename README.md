@@ -26,3 +26,4 @@ The following configuration options are required, after installing the plugin:
 | `ryot movie\|mov\|m <movie title>` | Search your movies by title | `ryot m Avatar` |
 | `ryot show\|tvshow\|tv <show title>` | Search your TV shows by title | `ryot tv The Sopranos` |
 | `ryot video_game\|videogame\|vg <videogame title>` | Search your video games by title | `ryot vg Zelda` |
+| `ryot visual_novel\|visualnovel\|vn <visualnovel title>` | Search your visual novels by title | `ryot vn Steins;Gate` |
